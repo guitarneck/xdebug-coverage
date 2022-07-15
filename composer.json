@@ -1,0 +1,59 @@
+{
+   "name": "guitarneck/xdebug-coverage",
+   "description": "xdebug coverage reporting tool",
+   "keywords": [
+      "php",
+      "coverage",
+      "xdebug",
+      "lcov",
+      "dot",
+      "clover",
+      "coveralls"
+   ],
+   "type": "library",
+   "homepage": "https://github.com/guitarneck/xdebug-coverage",
+   "require-dev": {
+      "guitarneck/taphp": "^1.0"
+   },
+   "license": "MIT",
+   "authors": [
+      {
+         "name": "Laurent S.",
+         "email": "guitarneck@free.fr"
+      }
+   ],
+   "minimum-stability": "dev",
+   "require": {
+      "php": ">=5.5.0",
+      "composer-runtime-api": "^2.0.0"
+   },
+   "prefer-stable": true,
+   "autoload": {
+      "exclude-from-classmap": [
+         "coverage/sources/format/*"
+      ],
+      "psr-4": {
+         "Coverage\\": "coverage/sources"
+      }
+   },
+   "suggest": {
+      "ext-xdebug": "*"
+   },
+   "bin": [
+      "coverage/coverage"
+   ],
+   "scripts": {
+      "test": [
+         "Composer\\Config::disableProcessTimeout",
+         "@php tests/Hello.test.php"
+      ],
+      "publish": [
+         "@rebase-master",
+         "git push origin master"
+      ],
+      "rebase-master": "git pull --rebase origin master"
+   },
+   "scripts-descriptions": {
+      "test": "Run all tests!"
+   }
+}

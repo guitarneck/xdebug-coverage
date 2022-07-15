@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+
+$script = $argv[0];
+$parms  = implode(' ',array_slice($argv,1));
+
+exec("php -d auto_prepend_file=coverage/XDebugCoverageBootstrap.php -d xdebug.mode=coverage -f {$script} -- {$parms}");

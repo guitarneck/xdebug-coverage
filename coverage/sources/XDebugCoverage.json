@@ -1,0 +1,65 @@
+{
+   "version":"1.0",
+   "renaming": {
+      "extension": ".test.php",
+      "rename": "%s.cov"
+   },
+   "comment: arguments": "[user tokens,property key,is boolean,default value]",
+   "arguments": [
+      [
+         "--includes=,--includes,-i",
+         "includes",
+         false,
+         null,
+         "The paths to include. Separated by ','.\n\tEx: src/,inc/"
+      ],
+      [
+         "--excludes=,--excludes,-x",
+         "excludes",
+         false,
+         null,
+         "The paths to exclude. Separated by ','.\n\tEx: vendor/,tests/,inc/lib/"
+      ],
+      [
+         "--output-path=,--output-path,-p",
+         "output",
+         false,
+         "{DIR},..,reports",
+         "The paths to output. Separated by ','.\n\tEx: {DIR},..,reports\n\t- {DIR}: __DIR__ ('coverage/sources')\n\t- ..   : parent path"
+      ],
+      [
+         "--format=,--format,-F",
+         "format",
+         false,
+         null,
+         "The file format to be generated."
+      ],
+      [
+         "--debug",
+         "debug",
+         true,
+         false
+      ],
+      [
+         "--no-extra-filter",
+         "noExtraFilter",
+         true,
+         false
+      ]
+   ],
+   "includes": [],
+   "excludes": [],
+   "comment: formats available": "export,serialize,json,dot,dump,coverage,coveralls,lcov,clover",
+   "formats":{
+      "export"    : "Export",
+      "serialize" : "Serialize",
+      "json"      : "JSON",
+      "dot"       : "Dot",
+      "dump"      : "Dump",
+      "coverage"  : "Coverage",
+      "coveralls" : "Coveralls",
+      "lcov"      : "LCOV",
+      "clover"    : "Clover"
+   },
+   "format": "dump"
+}
