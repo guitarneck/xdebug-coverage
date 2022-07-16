@@ -62,7 +62,7 @@ $ coverage/coverage tests/Something.test.php [options]
 
 ### configuration
 
-Default configuration cans be sets in _coverage/sources/XDebugCoverage.json_
+Default configuration can be sets in _coverage/sources/XDebugCoverage.json_
 
 ## Using .dot
 
