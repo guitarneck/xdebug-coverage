@@ -229,6 +229,11 @@ class XDebugCoverage
       return false !== extension_loaded('xdebug');
    }
 
+   function xdebugVersion ()
+   {
+      return phpversion('xdebug');
+   }
+
    function isCoverage ()
    {
       return (false !== strpos(ini_get('xdebug.mode'),'coverage') || 1 == ini_get('xdebug.coverage_enable'));
