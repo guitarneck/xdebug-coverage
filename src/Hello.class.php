@@ -12,7 +12,8 @@ class Hello
    static
    function byebye ( $name=null )
    {
-      if ( empty($name) ) $name = "who you are";
+      if ( empty($name) )
+         $name = "who you are";
 
       return "Bye-bye $name !";
    }

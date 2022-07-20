@@ -9,7 +9,7 @@ class LCOVFormat extends AbstractFormat
    function __construct( array $params=null )
    {
       $config = XDebugConfiguration::instance();
-      $config->renaming->rename = 'lcov_%s.info';
+      $config->renaming->rename = '%s_lcov.info';
 
       if (!isset($params['name'])) $params['name'] = '';
 
@@ -27,6 +27,18 @@ class LCOVFormat extends AbstractFormat
 
          $output .= sprintf("SF:%s\n",$script);
 
+         // Lines
+         $lines      = array();
+         $lines_hits = array();
+         $main       = $this->mainLine($info['lines']);
+         foreach( $info['lines'] as $line => $hit )
+         {
+            if ( COVERAGE_LCOV_SKIP_MAIN && $line === $main ) continue;
+            if ( $hit === LINE_UNEXECUTABLE ) continue;
+            $lines[$line] = $hit < 0 ? 0 : 1;
+            $lines_hits[$line]= 0;
+         }
+
          $functions = array();
          $func_hits = array();
          $branches  = array();
@@ -40,39 +52,42 @@ class LCOVFormat extends AbstractFormat
             // ???
 
             $functions[] = sprintf("FN:%u,%s",$function['branches'][0]['line_start'],$fname);
-            $func_hits[] = sprintf("FNDA:%u,%s",$function['branches'][0]['hit'],$fname);
+            // $func_hits[] = sprintf("FNDA:%u,%s",$function['branches'][0]['hit'],$fname);
+            if ( isset($func_hits[$fname]) )
+               $func_hits[$fname] += $function['branches'][0]['hit'];
+            else
+               $func_hits[$fname] = $function['branches'][0]['hit'];
 
             $id = $function['branches'][array_keys($function['branches'])[0]]['line_start'];
             foreach ( $function['branches'] as $bnr => $branch )
             {
-               $branches[] = sprintf("BRDA:%u,%s,%u,%s",$branch['line_start'],$id,$bnr,$branch['hit']?'1':'-');
+               for ( $i=$branch['line_start'] ; $i<=$branch['line_end'] ; $i++ )
+               {
+                  $branches[] = sprintf("BRDA:%u,%s,%u,%s",$i,$id,$bnr,$branch['hit']?'1':'-');
+                  if ( !isset($lines_hits[$i]) ) continue;
+                  $lines_hits[$i] += $branch['hit'];
+               }
             }
          }
          $output .= implode("\n",$functions)."\n";
-         $output .= implode("\n",$func_hits)."\n";
+         //$output .= implode("\n",$func_hits)."\n";
+         foreach ( $func_hits as $fname => $calls ) sprintf("FNDA:%u,%s\n",$calls,$fname);
 
          $output .= sprintf("FNF:%u\n",count($functions));
-         $output .= sprintf("FNH:%u\n",count(array_filter($func_hits,function($v){return 'FNDA:0' !== substr($v,0,6);})));
+         // $output .= sprintf("FNH:%u\n",count(array_filter($func_hits,function($v){return 'FNDA:0' !== substr($v,0,6);})));
+         $output .= sprintf("FNH:%u\n",count(array_filter($func_hits,function($v){return $v > 0;})));
 
          $output .= implode("\n",$branches)."\n";
 
          $output .= sprintf("BRF:%u\n",count($branches));
          $output .= sprintf("BRH:%u\n",count(array_filter($branches,function($v){return '-' !== substr($v,-1);})));
 
-         // Lines
-         $lines   = array();
-         $main    = $this->mainLine($info['lines']);
-         foreach( $info['lines'] as $line => $hit )
-         {
-            if ( COVERAGE_LCOV_SKIP_MAIN && $line === $main ) continue;
-            if ( $hit === LINE_UNEXECUTABLE ) continue;
-            $lines[] = sprintf('DA:%u,%u',$line,$hit?1:0);
-         }
+         // $output .= implode("\n",$lines)."\n";
+         foreach ( $lines_hits as $line => $count )
+            $output .= sprintf("DA:%u,%u\n",$line,$count);
 
-         $output .= implode("\n",$lines)."\n";
-
+         $output .= sprintf("LH:%u\n",count(array_filter($lines_hits,function($v){return $v > 0;})));
          $output .= sprintf("LF:%u\n",count($lines));
-         $output .= sprintf("LH:%u\n",count(array_filter($lines,function($v){return '0' !== substr($v,-1);})));
 
          $output .= "end_of_record\n";
       }
