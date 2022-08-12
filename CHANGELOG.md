@@ -20,5 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - xdebug-coverage system
 - formats: export,serialize,json,dot,dump,coverage,coveralls,lcov,clover
 
-[Unreleased]: https://github.com/guitarneck/xdebug-coverage/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/guitarneck/xdebug-coverage/compare/1.1.0...HEAD
 [1.0.0]: https://github.com/guitarneck/xdebug-coverage/releases/tag/1.0.0
+[1.1.0]: https://github.com/guitarneck/xdebug-coverage/releases/tag/1.1.0
