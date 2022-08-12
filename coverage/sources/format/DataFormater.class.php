@@ -39,7 +39,7 @@ class DataFormater
    }
 
    static
-   function parse_str ( string $format )
+   function parse_str ( string $format ): array
    {
       $params = null;
 
@@ -51,7 +51,7 @@ class DataFormater
       return array($format,$params);
    }
 
-   function isValid ( stdClass $formats )
+   function isValid ( stdClass $formats ): bool
    {
       if ( !$this->inFormats($formats) ) return false;
 
@@ -60,23 +60,24 @@ class DataFormater
       return file_exists($script);
    }
 
-   function inFormats ( stdClass $formats )
+   function inFormats ( stdClass $formats ): bool
    {
       return isset($formats->{$this->format});
    }
 
-   function formaterClass ( stdClass $formats )
+   function formaterClass ( stdClass $formats ): string
    {
       return sprintf('%sFormat',$formats->{$this->format});
    }
 
-   function formaterScript ( string $className )
+   function formaterScript ( string $className ): string
    {
-      return  __DIR__ . DIRECTORY_SEPARATOR . "{$className}.class.php";
+      // return  __DIR__ . DIRECTORY_SEPARATOR . "{$className}.class.php";
+      return  sprintf('%s%s%s.class.php',__DIR__,DIRECTORY_SEPARATOR,$className);
    }
 
    static
-   function class2format ( string $classname )
+   function class2format ( string $classname ): string
    {
       return strtolower(str_replace('Format','',$classname));
    }

@@ -28,15 +28,16 @@ class LCOVFormat extends AbstractFormat
          $output .= sprintf("SF:%s\n",$script);
 
          // Lines
-         $lines      = array();
-         $lines_hits = array();
-         $main       = $this->mainLine($info['lines']);
+         $s_lines_hits  = array();
+         $s_lines_sums  = array();
+         $main          = $this->mainLine($info['lines']);
          foreach( $info['lines'] as $line => $hit )
          {
             if ( COVERAGE_LCOV_SKIP_MAIN && $line === $main ) continue;
             if ( $hit === LINE_UNEXECUTABLE ) continue;
-            $lines[$line] = $hit < 0 ? 0 : 1;
-            $lines_hits[$line]= 0;
+            if ( $hit < 0 ) $hit = 0;
+            $s_lines_hits[$line] = $hit;
+            $s_lines_sums[$line] = 0;
          }
 
          $functions = array();
@@ -44,6 +45,8 @@ class LCOVFormat extends AbstractFormat
          $branches  = array();
 
          // functions
+         $fmin = PHP_INT_MAX;
+         $fmax = PHP_INT_MIN;
          $this->sortLinesFunctions($info['functions']);
          foreach ( $info['functions'] as $fname => $function )
          {
@@ -63,9 +66,11 @@ class LCOVFormat extends AbstractFormat
             {
                for ( $i=$branch['line_start'] ; $i<=$branch['line_end'] ; $i++ )
                {
+                  if ( $i < $fmin ) $fmin = $i;
+                  if ( $i > $fmax ) $fmax = $i;
                   $branches[] = sprintf("BRDA:%u,%s,%u,%s",$i,$id,$bnr,$branch['hit']?'1':'-');
-                  if ( !isset($lines_hits[$i]) ) continue;
-                  $lines_hits[$i] += $branch['hit'];
+                  if ( !isset($s_lines_sums[$i]) ) continue;
+                  $s_lines_sums[$i] += $branch['hit'];
                }
             }
          }
@@ -82,12 +87,20 @@ class LCOVFormat extends AbstractFormat
          $output .= sprintf("BRF:%u\n",count($branches));
          $output .= sprintf("BRH:%u\n",count(array_filter($branches,function($v){return '-' !== substr($v,-1);})));
 
-         // $output .= implode("\n",$lines)."\n";
-         foreach ( $lines_hits as $line => $count )
-            $output .= sprintf("DA:%u,%u\n",$line,$count);
+         // $output .= implode("\n",$s_lines_hits)."\n";
+         $hits  = 0;
+         $count = 0;
+         foreach ( $s_lines_sums as $line => $hcount )
+         {
+            if ( $line < $fmin || $line > $fmax ) continue; // only lines covered by a branche
+            $output .= sprintf("DA:%u,%u\n",$line,$hcount);
+            $hits   += $hcount > 0;
+            $count++;
+         }
 
-         $output .= sprintf("LH:%u\n",count(array_filter($lines_hits,function($v){return $v > 0;})));
-         $output .= sprintf("LF:%u\n",count($lines));
+         // $output .= sprintf("LH:%u\n",count(array_filter($s_lines_sums,function($v){return $v > 0;})));
+         $output .= sprintf("LH:%u\n",$hits);
+         $output .= sprintf("LF:%u\n",$count);
 
          $output .= "end_of_record\n";
       }

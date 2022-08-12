@@ -1,7 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-$script = $argv[0];
-$parms  = implode(' ',array_slice($argv,1));
+$script = $argv[1];
+$parms  = implode(' ',array_slice($argv,2));
 
-exec("php -d auto_prepend_file=coverage/XDebugCoverageBootstrap.php -d xdebug.mode=coverage -f {$script} -- {$parms}");
+$cmd = "php -d auto_prepend_file=coverage/XDebugCoverageBootstrap.php -d xdebug.mode=coverage -f $script -- {$parms}";
+if ( exec($cmd, $output) ) print implode("\n", $output) . "\n";
+else print "\e[31mError : Can't execute $script\e[0m\n";

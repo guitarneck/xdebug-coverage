@@ -10,7 +10,7 @@ class XDebugConfiguration
    private  $config;
 
    static
-   function instance ()
+   function instance (): XDebugConfiguration
    {
       static $instance=null;
       if ( $instance === null ) $instance = new XDebugConfiguration();
@@ -34,14 +34,14 @@ class XDebugConfiguration
    }
 
    private
-   function loadConfiguration ()
+   function loadConfiguration (): bool
    {
       $this->config = json_decode(file_get_contents(XDBGCOV_CONFIG_JSON));
       return JSON_ERROR_NONE === json_last_error();
    }
 
    private
-   function update ()
+   function update (): void
    {
       CLIArguments::onHelp(function(CLIArguments $arguments){
          $this->formatHelp($arguments);
@@ -66,7 +66,7 @@ class XDebugConfiguration
    }
 
    public
-   function formatHelp ( CLIArguments $arguments )
+   function formatHelp ( CLIArguments $arguments ): void
    {
       if ( $arguments->format === null ) return;
 
@@ -85,7 +85,7 @@ class XDebugConfiguration
    }
 
    private
-   function realpath ( $paths )
+   function realpath ( string $paths ): array
    {
       return array_map(function($p){
          $path = realpath($p) ?? $p;

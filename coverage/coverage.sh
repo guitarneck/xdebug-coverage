@@ -3,7 +3,7 @@ script="$1"
 shift
 
 php="`which php.exe`"
-if [[ -z $php ]]
+if [ -z $php ]
 then
    php=php
 else

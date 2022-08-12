@@ -49,7 +49,7 @@
    ],
    "includes": [],
    "excludes": [],
-   "comment: formats available": "export,serialize,json,dot,dump,coverage,coveralls,lcov,clover",
+   "comment: formats available": "export,serialize,json,dot,dump,coverage,coveralls,lcov,clover,raw",
    "formats":{
       "export"    : "Export",
       "serialize" : "Serialize",
@@ -59,7 +59,8 @@
       "coverage"  : "Coverage",
       "coveralls" : "Coveralls",
       "lcov"      : "LCOV",
-      "clover"    : "Clover"
+      "clover"    : "Clover",
+      "raw"       : "Raw"
    },
    "format": "dump"
 }

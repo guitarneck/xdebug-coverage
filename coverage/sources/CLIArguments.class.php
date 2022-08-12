@@ -13,7 +13,7 @@ class CLIArguments
    protected static $additionalHelp = null;
 
    static
-   function parameter ( $tokens='', $key='', $isbool=false, $default=null, $explenation='' )
+   function parameter ( string $tokens='', string $key='', bool $isbool=false, string $default=null, string $explenation='' ): array
    {
       return array_replace(
          array('','',false,null,''),
@@ -21,7 +21,7 @@ class CLIArguments
       );
    }
 
-   function __construct ( $parameters )
+   function __construct (array $parameters )
    {
       if ( ! $this->isCli() || ! $this->hasArguments() ) return;
 
@@ -70,7 +70,7 @@ class CLIArguments
    }
 
    protected
-   function initialize ( & $parameters )
+   function initialize ( array & $parameters ): void
    {
       $parameters = array_map(function($v){
          return self::parameter($v[self::TOK],$v[self::KEY],$v[self::ISB],$v[self::DEF],$v[self::EXP]??'');
@@ -83,7 +83,7 @@ class CLIArguments
    }
 
    protected
-   function help ( $parameters )
+   function help ( array $parameters ): void
    {
       $max = 0;
 
@@ -117,13 +117,13 @@ class CLIArguments
    }
 
    protected
-   function isCli ()
+   function isCli (): string
    {
       return substr(php_sapi_name(),0,3) === 'cli' && empty($_SERVER['DOCUMENT_ROOT']);
    }
 
    protected
-   function hasArguments ()
+   function hasArguments (): bool
    {
       return $_SERVER['argc'] > 1;
    }

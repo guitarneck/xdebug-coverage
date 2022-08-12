@@ -58,7 +58,7 @@ class XDebugCoverage
    }
 
    protected
-   function reportPath ()
+   function reportPath (): string
    {
       $config  = \XDebugConfiguration::instance();
 
@@ -72,7 +72,7 @@ class XDebugCoverage
    }
 
    protected
-   function onDebugExit ()
+   function onDebugExit (): void
    {
       $config = \XDebugConfiguration::instance();
       if ( ! $config->debug ) return;
@@ -116,7 +116,7 @@ class XDebugCoverage
    }
 
    protected
-   function xdebugFilter ()
+   function xdebugFilter (): void
    {
       $config = \XDebugConfiguration::instance();
 
@@ -135,7 +135,7 @@ class XDebugCoverage
    }
 
    protected
-   function filter ( $datas )
+   function filter ( array $datas ): array
    {
       $config = \XDebugConfiguration::instance();
       if ( $config->noExtraFilter ) return $datas;
@@ -166,7 +166,7 @@ class XDebugCoverage
    }
 
    protected
-   function format ( $datas )
+   function format ( array $datas ): string
    {
       $config = \XDebugConfiguration::instance();
 
@@ -177,7 +177,7 @@ class XDebugCoverage
    }
 
    static
-   function hasStarted ()
+   function hasStarted (): bool
    {
       return xdebug_code_coverage_started();
    }
@@ -187,7 +187,7 @@ class XDebugCoverage
       From PHP 5.2.1 and later this function is always available.
    */
    static private
-   function isMemoryLimitAvailable ()
+   function isMemoryLimitAvailable (): bool
    {
       if ( ! version_compare(phpversion(), '5.2.1', '>') )
       {
@@ -202,7 +202,7 @@ class XDebugCoverage
    }
 
    static
-   function memoryString ( $bytes )
+   function memoryString ( $bytes ): string
    {
       static $units = array('b','Kb','Mb','Gb','Tb','Pb','Eb','Zb','Yb');
       $expo = floor(log($bytes,1024));
@@ -211,30 +211,30 @@ class XDebugCoverage
    }
 
    static
-   function memoryUsage ()
+   function memoryUsage (): int
    {
       if ( ! self::isMemoryLimitAvailable() ) return 0;
       return xdebug_memory_usage();
    }
 
    static
-   function memoryPeak ()
+   function memoryPeak (): int
    {
       if ( ! self::isMemoryLimitAvailable() ) return 0;
       return xdebug_peak_memory_usage();
    }
 
-   function isLoaded ()
+   function isLoaded (): bool
    {
       return false !== extension_loaded('xdebug');
    }
 
-   function xdebugVersion ()
+   function xdebugVersion (): string
    {
       return phpversion('xdebug');
    }
 
-   function isCoverage ()
+   function isCoverage (): bool
    {
       return (false !== strpos(ini_get('xdebug.mode'),'coverage') || 1 == ini_get('xdebug.coverage_enable'));
    }

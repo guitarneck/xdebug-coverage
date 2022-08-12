@@ -102,7 +102,7 @@ class CoverallsFormat extends AbstractFormat
    }
 
    protected
-   function coverage_coveralls_gitinfo ()
+   function coverage_coveralls_gitinfo (): array
    {
       $nul = PHP_OS !== 'WINNT' ? '/dev/null' : 'nul';
 
@@ -116,7 +116,7 @@ class CoverallsFormat extends AbstractFormat
    }
 
    protected
-   function relativeToProject ( $path )
+   function relativeToProject ( string $path ): string
    {
       static $root = null;
 

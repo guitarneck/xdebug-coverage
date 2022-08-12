@@ -35,7 +35,7 @@ class AbstractFormat
     * @return int             The line number of '{main}'.
     */
    protected
-   function mainLine ( array $lines )
+   function mainLine ( array $lines ): int
    {
       $lnbrs = array_keys($lines);
       return array_pop($lnbrs);
@@ -48,14 +48,14 @@ class AbstractFormat
     * @return boolean         True when the function is the main, false otherwise.
     */
    protected
-   function isMain ( string $fname )
+   function isMain ( string $fname ): bool
    {
       return $fname === '{main}';
    }
 
    // ascending sorting of integers
    private
-   function cmpasc ($a,$b)
+   function cmpasc ($a,$b): int
    {
       return ($a > $b) - ($a < $b);
    }
@@ -67,7 +67,7 @@ class AbstractFormat
     * @return void
     */
    protected
-   function sortLinesFunctions ( & $functions )
+   function sortLinesFunctions ( & $functions ): void
    {
       uasort( $functions, function ($a,$b){
          return $this->cmpasc($a['branches'][0]['line_start'], $b['branches'][0]['line_start']);

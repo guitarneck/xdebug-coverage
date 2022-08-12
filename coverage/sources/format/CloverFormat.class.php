@@ -243,7 +243,7 @@ class CloverFormat extends AbstractFormat
    }
 
    private
-   function addMetrics ( $from, & $into )
+   function addMetrics ( array $from, array & $into ): void
    {
       foreach ( $from as $k => $v )
       {
@@ -255,7 +255,7 @@ class CloverFormat extends AbstractFormat
    }
 
    private
-   function createElementMetrics ( $parms )
+   function createElementMetrics ( array $parms ): void
    {
       $metrics = $this->xml->createElement( "metrics" );
       $root    = $parms['__root'];
