@@ -1,10 +1,14 @@
-[//]: # (xdebug-coverage v1.0.0)
-[![Version 1.0.0][version-badge]][changelog] ![GitHub release (latest by date)][github-release-url] ![GitHub last commit][github-last-commit]
+[//]: # (xdebug-coverage v1.1.0)
+[![Version 1.1.0][version-badge]][changelog] ![GitHub release (latest by date)][github-release-url] ![GitHub last commit][github-last-commit]
 ![Packagist Version][packagist-version-url] ![Packagist PHP Version Support][packagist-version-support-url] ![Packagist Downloads][packagist-downloads-url]
 ![GitHub license][github-license-url] [![Keep a Changelog v1.1.0][changelog-badge]][changelog]
 
 
 [//]: # (TODO: [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url])
+
+---
+
+> # This project is abandoned, and replaced by [php-coverage](https://github.com/guitarneck/php-coverage)
 
 ---
 
@@ -84,10 +88,10 @@ $ dot -Tsvg coverage\\reports\\Hello.dot > Hello.svg
 [license]: ./LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 
-[version-badge]: https://img.shields.io/badge/version-1.0.0-blue.svg
+[version-badge]: https://img.shields.io/badge/version-1.1.0-blue.svg
 
 [changelog]: ./CHANGELOG.md
-[changelog-badge]: https://img.shields.io/badge/changelog-Keep%20a%20Changelog%20v1.1.0-%23E05735
+[changelog-badge]: https://img.shields.io/badge/changelog-Keep%20a%20Changelog%20v1.1.0-%23000000
 
 [packagist-version-url]: https://img.shields.io/packagist/v/guitarneck/xdebug-coverage
 [packagist-downloads-url]: https://img.shields.io/packagist/dt/guitarneck/xdebug-coverage
@@ -96,7 +100,7 @@ $ dot -Tsvg coverage\\reports\\Hello.dot > Hello.svg
 [xdebug-url]: https://xdebug.org/
 
 [packagist-url]: https://packagist.org/packages/guitarneck/xdebug-coverage
-[packagist-version-support-url]: https://img.shields.io/packagist/php-v/guitarneck/xdebug-coverage/1.0.0
+[packagist-version-support-url]: https://img.shields.io/packagist/php-v/guitarneck/xdebug-coverage/1.1.0
 
 [travis-image]: https://img.shields.io/travis/guitarneck/xdebug-coverage.svg?label=travis-ci
 [travis-url]: https://travis-ci.org/guitarneck/xdebug-coverage
